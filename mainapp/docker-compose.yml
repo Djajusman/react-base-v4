@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  webpack:
+    image: node:14
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: bash -c "yarn && yarn start"
+    ports:
+      - "3005:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "consul:8500"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # app:
+  #   container_name: diarium_mainapp_container
+  #   image: frontend-image:latest
+  #   volumes:
+  #     - './:/app'
+  #     - '/app/node_modules'
+  #   ports:
+  #     - 3005:3000
+  #   stdin_open: true
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   command: npm start

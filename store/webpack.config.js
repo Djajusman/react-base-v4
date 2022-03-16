@@ -1,22 +1,19 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const path = require("path");
 
 const deps = require("./package.json").dependencies;
 module.exports = {
-  entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "build"), // change this
-    publicPath: "http://localhost:3005/",
-    filename: "bundle.js",
+    publicPath: "http://localhost:3007/",
   },
 
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
   },
 
-  watchOptions: {
-    poll: 1000,
+  devServer: {
+    port: 3007,
+    historyApiFallback: true,
   },
 
   module: {
@@ -44,14 +41,11 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "mainapp",
+      name: "store",
       filename: "remoteEntry.js",
-      remotes: {
-        mainapp: "mainapp@http://localhost:3005/remoteEntry.js",
-        store: "store@http://localhost:3007/remoteEntry.js",
-      },
+      remotes: {},
       exposes: {
-        "./CardTable": "./src/components/CardTable.js",
+        "./store": "./src/store",
       },
       shared: {
         ...deps,
@@ -66,7 +60,7 @@ module.exports = {
       },
     }),
     new HtmlWebPackPlugin({
-      template: path.resolve("./src/index.html"),
+      template: "./src/index.html",
     }),
   ],
 };

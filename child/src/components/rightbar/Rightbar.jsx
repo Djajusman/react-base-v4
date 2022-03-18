@@ -8,7 +8,11 @@ function Rightbar({ profile }) {
     return (
       <>
         <div className="birthday__container">
-          <img src="/assets/gift.png" alt="" className="birthday__image" />
+          <img
+            src="http://localhost:3006/team-1-800x800.jpg"
+            alt=""
+            className="birthday__image"
+          />
           <span className="birthday__text">
             <b>Pola Foster</b> and <b>3 other friends </b>have a birthday today
           </span>
@@ -27,42 +31,58 @@ function Rightbar({ profile }) {
   const ProfileRightBar = () => {
     return (
       <>
-      <h4 className="rightbar__title">User Information</h4>
-      <div className="rightbar__info">
-        <div className="rightbar__info-item">
-          <span className="rightbar__info-key">City:</span>
-          <span className="rightbar__info-value">New York</span>
+        <h4 className="rightbar__title">User Information</h4>
+        <div className="rightbar__info">
+          <div className="rightbar__info-item">
+            <span className="rightbar__info-key">City:</span>
+            <span className="rightbar__info-value">New York</span>
+          </div>
+          <div className="rightbar__info-item">
+            <span className="rightbar__info-key">From:</span>
+            <span className="rightbar__info-value">Medan</span>
+          </div>
+          <div className="rightbar__info-item">
+            <span className="rightbar__info-key">Relationship:</span>
+            <span className="rightbar__info-value">Single</span>
+          </div>
         </div>
-        <div className="rightbar__info-item">
-          <span className="rightbar__info-key">From:</span>
-          <span className="rightbar__info-value">Medan</span>
+        <h4 className="rightbar__title">User Friends</h4>
+        <div className="rightbar__followings">
+          <div className="rightbar__following">
+            <img
+              src="/assets/person/2.jpeg"
+              alt=""
+              className="rightbar__following-image"
+            />
+            <span className="rightbar__following-name">Jhon Doe</span>
+          </div>
+          <div className="rightbar__following">
+            <img
+              src="/assets/person/3.jpeg"
+              alt=""
+              className="rightbar__following-image"
+            />
+            <span className="rightbar__following-name">Jhon Doe</span>
+          </div>
+          <div className="rightbar__following">
+            <img
+              src="/assets/person/4.jpeg"
+              alt=""
+              className="rightbar__following-image"
+            />
+            <span className="rightbar__following-name">Jhon Doe</span>
+          </div>
+          <div className="rightbar__following">
+            <img
+              src="/assets/person/5.jpeg"
+              alt=""
+              className="rightbar__following-image"
+            />
+            <span className="rightbar__following-name">Jhon Doe</span>
+          </div>
         </div>
-        <div className="rightbar__info-item">
-          <span className="rightbar__info-key">Relationship:</span>
-          <span className="rightbar__info-value">Single</span>
-        </div>
-      </div>
-      <h4 className="rightbar__title">User Friends</h4>
-      <div className="rightbar__followings">
-        <div className="rightbar__following">
-          <img src="/assets/person/2.jpeg" alt="" className="rightbar__following-image" />
-          <span className="rightbar__following-name">Jhon Doe</span>
-        </div>
-        <div className="rightbar__following">
-          <img src="/assets/person/3.jpeg" alt="" className="rightbar__following-image" />
-          <span className="rightbar__following-name">Jhon Doe</span>
-        </div>
-        <div className="rightbar__following">
-          <img src="/assets/person/4.jpeg" alt="" className="rightbar__following-image" />
-          <span className="rightbar__following-name">Jhon Doe</span>
-        </div>
-        <div className="rightbar__following">
-          <img src="/assets/person/5.jpeg" alt="" className="rightbar__following-image" />
-          <span className="rightbar__following-name">Jhon Doe</span>
-        </div>
-      </div>
       </>
-    )
+    );
   };
 
   return (

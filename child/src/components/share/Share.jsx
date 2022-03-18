@@ -9,7 +9,7 @@ function Share() {
         <div className="share__top">
           <img
             className="share__profile-image"
-            src="/assets/person/1.jpeg"
+            src="http://localhost:3006/team-1-800x800.jpg"
             alt="profilepic"
           />
           <input

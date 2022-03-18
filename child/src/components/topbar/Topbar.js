@@ -8,9 +8,7 @@ function TopBar() {
     <div className="bg-red-800 h-14 w-full flex items-center sticky top-0 z-50">
       <div className="topbar__left">
         {/* <Link to="/" className="no-underline"> */}
-          <span className="text-2xl ml-4 font-bold text-red-50">
-            Diarium
-          </span>
+        <span className="text-2xl ml-4 font-bold text-red-50">Diarium</span>
         {/* </Link> */}
       </div>
       <div className="flex-2 w-64">
@@ -25,31 +23,35 @@ function TopBar() {
       </div>
       <div className="topbar__right flex items-center justify-around text-neutral-100">
         <div className="">
-          <span className="mr-3.5 text-sm cursor-pointer">Homepage</span>
-          <span className="mr-3.5 text-sm cursor-pointer">Timeline</span>
+          <span className="mr-3.5 text-gray-100 text-sm cursor-pointer">
+            Homepage
+          </span>
+          <span className="mr-3.5 text-gray-100 text-sm cursor-pointer">
+            Timeline
+          </span>
         </div>
         <div className="flex">
           <div className="mr-3 cursor-pointer relative">
-            <Person />
-            <span className=" topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-neutral-50 absolute flex items-center justify-center text-xs">
+            <Person className="text-gray-100" />
+            <span className=" topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-white absolute flex items-center justify-center text-xs">
               1
             </span>
           </div>
           <div className="mr-3 cursor-pointer relative">
-            <Chat />
-            <span className="topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-neutral-50 absolute flex items-center justify-center text-xs">
+            <Chat className="text-gray-100" />
+            <span className="topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-white absolute flex items-center justify-center text-xs">
               1
             </span>
           </div>
           <div className="mr-3 cursor-pointer relative">
-            <Notifications />
-            <span className="topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-neutral-50 absolute flex items-center justify-center text-xs">
+            <Notifications className="text-gray-100" />
+            <span className="topbar__icon-badge w-3.5 h-3.5 bg-red-700 rounded-full text-white absolute flex items-center justify-center text-xs">
               1
             </span>
           </div>
         </div>
         <img
-          src="/assets/person/1.jpeg"
+          src="http://localhost:3006/team-1-800x800.jpg"
           alt="imagetopbar"
           className="w-8 h-8 rounded-full object-cover cursor-pointer"
         />

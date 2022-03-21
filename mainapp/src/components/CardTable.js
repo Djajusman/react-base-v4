@@ -5,8 +5,23 @@ import { getUserList } from "../api/index";
 export default function CardTable({ color }) {
   const [listUsers, setListUsers] = useState([]);
 
+  function fetchUsers() {
+    getUserList()
+      .then((res) => {
+        let tempList = [];
+        tempList = res.data;
+        console.log("List Data User => ", tempList);
+        setListUsers(tempList);
+        localStorage.setItem("users", JSON.stringify(res.data));
+      })
+      .catch(() => {
+        let collection = localStorage.getItem("users");
+        setListUsers(JSON.parse(collection));
+      });
+  };
+
   useEffect(() => {
-    getUserList().then(setListUsers);
+    fetchUsers();
   }, []);
 
 

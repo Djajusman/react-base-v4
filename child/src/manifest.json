@@ -1,0 +1,35 @@
+{
+  "name": "Diarium",
+  "short_name": "Diarium",
+  "theme_color": "#040404",
+  "background_color": "#0c0c0c",
+  "display": "standalone",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "diarium384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "diarium192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "favicon-16x16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "diarium384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "diarium512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

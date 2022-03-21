@@ -35,9 +35,13 @@ module.exports = {
             {
                 test: /\.(ts|tsx|js|jsx)$/,
                 exclude: /node_modules/,
+                // include: __dirname + "/app/",
                 use: {
                     loader: "babel-loader",
                 },
+                // query: {
+                //     presets: ['es2015']
+                // }
             },
         ],
     },

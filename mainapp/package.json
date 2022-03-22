@@ -39,6 +39,7 @@
     "@sentry/react": "^6.18.2",
     "@sentry/tracing": "^6.18.2",
     "axios": "^0.26.1",
+    "dotenv-webpack": "^7.1.0",
     "firebase": "^9.6.8",
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",

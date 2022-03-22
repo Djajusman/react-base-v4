@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import registerServiceWorker from "./serviceWorkerRegistration";
 // import CardTable from "./components/CardTable";
 // import FirebaseMessaging from "./config/initFirebase.js";
 
@@ -56,3 +57,4 @@ Sentry.init({
 });
 
 ReactDOM.render(<App />, document.getElementById("app"));
+registerServiceWorker();

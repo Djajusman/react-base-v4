@@ -68,6 +68,7 @@ export const getUserList = get("users");
 export const postUser = post("users");
 // export const getUserScore = getWithSlug('users')
 export const postRegisterAuth = post("users");
+export const getToken = get("");
 
 const API = {
   postUser,

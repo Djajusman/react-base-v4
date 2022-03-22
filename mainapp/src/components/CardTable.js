@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // components
 import { getUserList } from "../api/index";
+import Cookie from "js-cookie";
 
 export default function CardTable({ color }) {
   const [listUsers, setListUsers] = useState([]);
@@ -12,10 +13,10 @@ export default function CardTable({ color }) {
         tempList = res.data;
         console.log("List Data User => ", tempList);
         setListUsers(tempList);
-        localStorage.setItem("users", JSON.stringify(res.data));
+        Cookie.set("users", JSON.stringify(res.data));
       })
       .catch(() => {
-        let collection = localStorage.getItem("users");
+        let collection = Cookie.get("users");
         setListUsers(JSON.parse(collection));
       });
   };

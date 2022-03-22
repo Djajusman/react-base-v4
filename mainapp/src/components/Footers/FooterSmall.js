@@ -7,18 +7,18 @@ export default function FooterSmall(props) {
         className={
           (props.absolute
             ? "absolute w-full bottom-0 bg-transparent"
-            : "relative") + " pb-10"
+            : "relative") + " pb-5 md:pb-10"
         }
       >
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-4/12 px-4">
-              <div className="text-sm text-grey-60 font-semibold text-center md:text-left">
+              <div className="text-sm text-grey-60 font-semibold text-center md:text-left md:flex hidden">
                 Copyright © {new Date().getFullYear()}{" "} Allrights Reserved
               </div>
             </div>
             <div className="flex justify-end">
-              <div className="text-sm text-grey-60 font-semibold pr-28 ">
+              <div className="text-sm text-grey-60 font-semibold pr-48 md:pr-28 text-center md:text-left">
                 Need help? <span className="text-green-50">Call HC Help desk</span>
               </div>
             </div>

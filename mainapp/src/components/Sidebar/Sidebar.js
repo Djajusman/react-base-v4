@@ -24,11 +24,11 @@ export default function Sidebar() {
             className="md:block text-center md:pb-2 mr-0 inline-block whitespace-nowrap text-sm px-4 font-bold"
             to="/"
           >
-                {/* <img
+                <img
                   alt="..."
-                  src={require("../../assets/icons/logotelkom.svg")}
+                  src={"http://localhost:3005/assets/icons/logotelkom.svg"}
                   className="h-12 align-center border-none"
-                /> */}
+                />
           </Link>
           
           {/* User */}

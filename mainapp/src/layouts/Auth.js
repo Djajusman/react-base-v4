@@ -11,6 +11,7 @@ export default function Auth() {
 
   const Register = lazy(() => import('../views/auth/Register.js'));
   const Login = lazy(() => import('../views/auth/Login.js'));
+  const LoginQR = lazy(() => import('../views/auth/LoginQR.js'));
 
   const renderLoader = () => <p>Loading</p>;
 
@@ -25,10 +26,19 @@ export default function Auth() {
               backgroundImage:
                 "url(http://localhost:3005/assets/img/bg-login.svg)",
             }}
-          ></div>
+          >
+            <div className="lg:flex hidden justify-end w-full md:pr-12 2xl:pr-72 md:mt-6 2xl:mt-12">
+              <img
+                alt="..."
+                className="h-9"
+                src={"http://localhost:3005/assets/icons/logotelkom.svg"}
+              />
+            </div>
+          </div>
           <Suspense fallback={renderLoader()}>
             <Switch>
               <Route path="/auth/login" exact component={Login} />
+              <Route path="/auth/login-qr" exact component={LoginQR} />
               <Route path="/auth/register" exact component={Register} />
               <Redirect from="/auth" to="/auth/login" />
             </Switch>

@@ -1,8 +1,14 @@
 import { SpanRecorder } from "@sentry/tracing/dist/span";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Login() {
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePassword = () => {
+    // When the handler is invoked
+    // inverse the boolean state of passwordShown
+    setPasswordShown(!passwordShown);
+  };
   return (
     <>
       <div className="container mx-auto h-full">
@@ -45,12 +51,24 @@ export default function Login() {
                     >
                       Password*
                     </label>
-                    <input
-                      type="password"
-                      className="border-0 px-7 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Enter 8 characters password"
-                    />
+                    <div className="flex flex-row w-full">
+                      <div className="w-11/12 pr-2">
+                        <input
+                          type={passwordShown ? "text" : "password"}
+                          className="border-0 px-7 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          placeholder="Enter 8 characters password"
+                        />
+                      </div>
+                      <div className="grid justify-items-center items-center">
+                        <a className="cursor-pointer" onClick={togglePassword}>
+                          <span className="text-xs font-semibold">
+                            Show
+                          </span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
+
                   <div className="relative w-full mb-5">
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
@@ -143,27 +161,29 @@ export default function Login() {
                   </div>
                 </div>
                 <div className="btn-wrapper text-center mt-5">
-                  <button
-                    className="bg-white max-h-14 text-black active:bg-slate-600 text-sm font-normal px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <div className="grid justify-items-center">
-                      <div className="flex flex-row">
-                        <div className="flex flex-col">
-                          <img
-                            alt="..."
-                            className="w-6 mr-4"
-                            src={"http://localhost:3005/assets/icons/qr-small.svg"}
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="pt-1 text-grey-60">
-                            QR Code Scan
-                          </span>
+                  <Link to={'/auth/login-qr'}>
+                    <button
+                      className="bg-white max-h-14 text-black active:bg-slate-600 text-sm font-normal px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      <div className="grid justify-items-center">
+                        <div className="flex flex-row">
+                          <div className="flex flex-col">
+                            <img
+                              alt="..."
+                              className="w-6 mr-4"
+                              src={"http://localhost:3005/assets/icons/qr-small.svg"}
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="pt-1 text-grey-60">
+                              QR Code Scan
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

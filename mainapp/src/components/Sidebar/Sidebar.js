@@ -154,6 +154,27 @@ export default function Sidebar() {
                   Users
                 </Link>
               </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/tables") !== -1
+                      ? "text-blue-500 hover:text-blue-600"
+                      : "text-slate-700 hover:text-slate-500")
+                  }
+                  to="/social"
+                >
+                  <i
+                    className={
+                      "fas fa-table mr-2 text-sm " +
+                      (window.location.href.indexOf("/social") !== -1
+                        ? "opacity-75"
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
+                  Social Media
+                </Link>
+              </li>
             </ul>
 
             {/* Divider */}

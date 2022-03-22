@@ -1,0 +1,15 @@
+/* topbar */
+
+.topbar__left {
+  flex: 3;
+}
+
+.topbar__right {
+  flex: 4;
+}
+
+.topbar__icon-badge {
+  top: -5px;
+  right: -5px;
+}
+

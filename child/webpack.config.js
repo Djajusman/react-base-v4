@@ -41,12 +41,15 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "child",
+      name: "social",
       filename: "remoteEntry.js",
       remotes: {
         mainapp: "mainapp@http://localhost:3005/remoteEntry.js",
+        social: "social@http://localhost:3006/remoteEntry.js",
       },
-      exposes: {},
+      exposes: {
+        "./Home": "./src/pages/home/Home.js",
+      },
       shared: {
         ...deps,
         react: {

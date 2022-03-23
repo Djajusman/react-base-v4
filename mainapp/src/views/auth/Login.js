@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { postLoginAuth, getJsonWebToken } from "../../api";
 import jwt_decode from "jwt-decode";
+import Captcha from "../../components/Captcha/Captcha";
 
 export default function Login() {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -113,30 +114,8 @@ export default function Login() {
                       </div>
                     </div>
                   </div>
-
                   <div className="relative w-full mb-5">
-                    <label
-                      className="block text-grey-60 text-base font-semibold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Captcha*
-                    </label>
-                    <div className="flex flex-row w-full">
-                      <div className="flex flex-col w-1/2 pr-2">
-                        <input
-                          type="captcha"
-                          className="border-0 px-3 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        />
-                      </div>
-                      <div className="flex flex-col w-1/2 pl-2">
-                        <input
-                          type="password"
-                          className="border-0 px-3 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          placeholder="capctha"
-                          disabled
-                        />
-                      </div>
-                    </div>
+                    <Captcha />
                   </div>
                   <div>
                     <label className="inline-flex items-center cursor-pointer">

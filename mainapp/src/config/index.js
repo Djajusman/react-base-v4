@@ -1,9 +1,10 @@
 const APP = {
-  API_URL: "https://gorest.co.in/public/v2",
+  API_URL: "https://apigwsit.telkom.co.id:7777",
   // process.env.NODE_ENV === "development"
   //   ? process.env.REACT_APP_API_URL_DEV
   //   : process.env.REACT_APP_API_URL_PROD,
-  // token: `8455c5d5685200059c36aa9783ae516f26ce651715cffba3b5a4095490a6ecca`,
+  token:
+    "eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ1c2VyRGlhcml1bSIsImF1ZCI6WyI4OWViNjg1MC02NTJkLTQwZmQtOGM1MS05YTgwNzNmODI0MjYiLCJ0ZWxrb20iXSwibmJmIjoxNjQ4MDI2MTExLCJpc3MiOiJ0ZWxrb20uY28uaWQiLCJleHAiOjE2NDgxMTI1MTEsImlhdCI6MTY0ODAyNjExMSwiYXBwX2lkIjoiODllYjY4NTAtNjUyZC00MGZkLThjNTEtOWE4MDczZjgyNDI2In0.Hj0j04tuz0Zsdnk9Y810lCK9kWJXur7LS5bDpDsul767G9pmU07iR4AjdsmlHpEg5tBedOndgLQUOT08LI99LjWBYlZB1OVTTjqeuYntH-DLw3N8MFpS7j8MKRh34Yn_sYg8vwpulC0veO2s0DOKX8mOhdONmc6nFXzPZrg2TwRVsW6MbogYplqwy1OSRMJzd3bkG6MtaRNSy47TCGotaxA8HnH1Ji1V8c1dEj2yVm13FyEGY3c1NcLLaM82-XDrEkQ9YUMdR6PsypWJgOo-UTOMLDVjaOy1djaeUnz4JObf901bwBnP7nMZINwA-hL55K-dKx_24G_zRQ4UbHxRew",
 };
 
 export default APP;

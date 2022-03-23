@@ -1,6 +1,10 @@
+import { async } from "@firebase/util";
 import { SpanRecorder } from "@sentry/tracing/dist/span";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { postLoginAuth, getJsonWebToken } from "../../api";
+import jwt_decode from "jwt-decode";
 
 export default function Login() {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -9,6 +13,43 @@ export default function Login() {
     // inverse the boolean state of passwordShown
     setPasswordShown(!passwordShown);
   };
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
+  const [msg, setMsg] = useState("");
+  const history = useHistory();
+
+  // const getToken = async (e) => {
+  //   try {
+  //     getJsonWebToken();
+  //     setToken(response.data.accessToken);
+  //     const decode = jwt_decode(response.data.accessToken);
+  //     console.log(decode);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const Login = async (e) => {
+    e.preventDefault();
+    try {
+      postLoginAuth({
+        username: username,
+        password: password,
+      });
+      history.push("/admin");
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
+
   return (
     <>
       <div className="container mx-auto h-full">
@@ -29,7 +70,7 @@ export default function Login() {
                 <div className="text-slate-400 text-center text-lg pt-2 font-normal">
                   <span>Let’s make your day more exciting here.</span>
                 </div>
-                <form className="mt-6">
+                <form className="mt-6" onSubmit={Login}>
                   <div className="relative w-full mb-5">
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
@@ -38,9 +79,12 @@ export default function Login() {
                       NIK*
                     </label>
                     <input
-                      type="nik"
+                      type="text"
+                      name="username"
                       className="border-0 px-7 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Enter NIK"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
 
@@ -56,14 +100,15 @@ export default function Login() {
                         <input
                           type={passwordShown ? "text" : "password"}
                           className="border-0 px-7 py-3 placeholder-slate-300 text-grey-70 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          name="password"
                           placeholder="Enter 8 characters password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
                       <div className="grid justify-items-center items-center">
                         <a className="cursor-pointer" onClick={togglePassword}>
-                          <span className="text-xs font-semibold">
-                            Show
-                          </span>
+                          <span className="text-xs font-semibold">Show</span>
                         </a>
                       </div>
                     </div>
@@ -93,43 +138,44 @@ export default function Login() {
                       </div>
                     </div>
                   </div>
-                </form>
-                <div>
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      id="customCheckLogin"
-                      type="checkbox"
-                      className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150"
-                    />
-                    <span className="ml-2 text-sm font-normal text-grey-60">
-                      I agree to <span className="text-red-500">terms & conditions</span>
-                    </span>
-                  </label>
-                </div>
+                  <div>
+                    <label className="inline-flex items-center cursor-pointer">
+                      <input
+                        id="customCheckLogin"
+                        type="checkbox"
+                        className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150"
+                      />
+                      <span className="ml-2 text-sm font-normal text-grey-60">
+                        I agree to{" "}
+                        <span className="text-red-500">terms & conditions</span>
+                      </span>
+                    </label>
+                  </div>
 
-                <div className="btn-wrapper text-center mt-6">
-                  <button
-                    className="bg-green-50 max-h-14 text-white active:bg-slate-600 text-lg font-bold px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <div className="grid justify-items-center">
-                      <div className="flex flex-row">
-                        <div className="flex flex-col">
-                          <img
-                            alt="..."
-                            className="w-6 mr-2"
-                            src={"http://localhost:3005/assets/icons/login.svg"}
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <span>
-                            Login
-                          </span>
+                  <div className="btn-wrapper text-center mt-6">
+                    <button
+                      className="bg-green-50 max-h-14 text-white active:bg-slate-600 text-lg font-bold px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="submit"
+                    >
+                      <div className="grid justify-items-center">
+                        <div className="flex flex-row">
+                          <div className="flex flex-col">
+                            <img
+                              alt="..."
+                              className="w-6 mr-2"
+                              src={
+                                "http://localhost:3005/assets/icons/login.svg"
+                              }
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <span>Login</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
-                </div>
+                    </button>
+                  </div>
+                </form>
                 <div className="flex justify-end mt-5">
                   <label className="inline-flex cursor-pointer">
                     <span className="text-sm font-semibold text-green-50">
@@ -161,7 +207,7 @@ export default function Login() {
                   </div>
                 </div>
                 <div className="btn-wrapper text-center mt-5">
-                  <Link to={'/auth/login-qr'}>
+                  <Link to={"/auth/login-qr"}>
                     <button
                       className="bg-white max-h-14 text-black active:bg-slate-600 text-sm font-normal px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
@@ -172,7 +218,9 @@ export default function Login() {
                             <img
                               alt="..."
                               className="w-6 mr-4"
-                              src={"http://localhost:3005/assets/icons/qr-small.svg"}
+                              src={
+                                "http://localhost:3005/assets/icons/qr-small.svg"
+                              }
                             />
                           </div>
                           <div className="flex flex-col">

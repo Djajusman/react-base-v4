@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosApiIntances = axios.create({
-  baseURL: "",
+  baseURL: "https://apigwsit.telkom.co.id:7777",
 });
 
 // Add a request interceptor

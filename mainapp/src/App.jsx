@@ -7,7 +7,7 @@ import registerServiceWorker from "./serviceWorkerRegistration";
 // import CardTable from "./components/CardTable";
 // import FirebaseMessaging from "./config/initFirebase.js";
 
-import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.scss";
 import Admin from "./layouts/Admin";
 import Home from "social/Home";

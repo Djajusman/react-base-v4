@@ -71,7 +71,10 @@ const getJWt = (api) => () => {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",
-        Authorization: "",
+        Authorization: {
+          Username: 'userDiarium',
+          Password: 'diariumUser#123'
+        },
         // 'apikey': process.env.REACT_APP_API_KEY
       },
     },

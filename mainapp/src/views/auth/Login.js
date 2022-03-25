@@ -21,7 +21,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-  const [msg, setMsg] = useState("");
+  const [message, setMessage] = useState("");
   const history = useHistory();
 
   // const getToken = async (e) => {
@@ -56,6 +56,20 @@ export default function Login() {
     } else {
       return alert("invalid captcha")
     }
+    axios
+      .post(
+        "https://apigwsit.telkom.co.id:7777/gateway/telkom-diarium-auth/1.0/authService/oauth/token",
+        {
+          username: username,
+          password: password,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // useEffect(() => {
@@ -83,6 +97,9 @@ export default function Login() {
                   <span>Let’s make your day more exciting here.</span>
                 </div>
                 <form className="mt-6" onSubmit={Login}>
+                  <p className="text-center text-base text-gray-500">
+                    {message}
+                  </p>
                   <div className="relative w-full mb-5">
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"

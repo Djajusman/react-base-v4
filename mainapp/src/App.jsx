@@ -6,10 +6,11 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import registerServiceWorker from "./serviceWorkerRegistration";
 import { Provider } from 'react-redux'
 import store from './store'
+import PrivateRoute from "./helper/PrivateRoute";
 // import CardTable from "./components/CardTable";
 // import FirebaseMessaging from "./config/initFirebase.js";
 
-import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.scss";
 import Admin from "./layouts/Admin";
 import Home from "social/Home";
@@ -22,29 +23,23 @@ function FallbackComponent() {
 
 const myFallback = <FallbackComponent />;
 
-if (process.env.NODE_ENV !== 'production') {
-  console.log('Looks like we are in development mode!');
+if (process.env.NODE_ENV !== "production") {
+  console.log("Looks like we are in development mode!");
 }
 
 const App = () => (
-  // <div className="mt-10 text-3xl mx-auto max-w-6xl">
-  //   <FirebaseMessaging />
-  //   <Sentry.ErrorBoundary fallback={myFallback} showDialog>
-  //     <CardTable />
-  //   </Sentry.ErrorBoundary>
-  // </div>
   <>
-
     <BrowserRouter>
       <Switch>
         {/* add routes with layouts */}
-        <Route path="/admin" component={Admin} />
+        <PrivateRoute path="/admin" component={Admin} />
         <Route path="/auth" component={Auth} />
-        <Route path="/social" component={Home} />
+        <PrivateRoute path="/social" component={Home} />
         {/* add redirect for first page */}
         <Redirect from="*" to="/admin" />
       </Switch>
-    </BrowserRouter>,
+    </BrowserRouter>
+    ,
   </>
 );
 

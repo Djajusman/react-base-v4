@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { postLoginAuth, getJsonWebToken } from "../../api";
 import jwt_decode from "jwt-decode";
 import Captcha from "../../components/Captcha/Captcha";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -14,6 +15,8 @@ export default function Login() {
     // inverse the boolean state of passwordShown
     setPasswordShown(!passwordShown);
   };
+  const dispatch = useDispatch();
+  const isValidCaptcha = useSelector((state) => state.isValidCaptcha);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,19 +34,27 @@ export default function Login() {
   //     console.log(error);
   //   }
   // };
+  
+  useEffect(()=>{
+    dispatch({ type: "set", isValidCaptcha: false })
+  },[1])
 
   const Login = async (e) => {
     e.preventDefault();
-    try {
-      postLoginAuth({
-        username: username,
-        password: password,
-      });
-      history.push("/admin");
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
+    if (isValidCaptcha === true) {
+      try {
+        postLoginAuth({
+          username: username,
+          password: password,
+        });
+        history.push("/admin");
+      } catch (error) {
+        if (error.response) {
+          setMsg(error.response.data.msg);
+        }
       }
+    } else {
+      return alert("invalid captcha")
     }
   };
 

@@ -1,6 +1,8 @@
 import { createStore } from "redux";
 
-const initialState = {};
+const initialState = {
+  isValidCaptcha: false
+};
 
 const changeState = (state = initialState, { type, ...rest }) => {
   switch (type) {

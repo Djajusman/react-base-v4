@@ -4,6 +4,8 @@ import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import registerServiceWorker from "./serviceWorkerRegistration";
+import { Provider } from 'react-redux'
+import store from './store'
 // import CardTable from "./components/CardTable";
 // import FirebaseMessaging from "./config/initFirebase.js";
 
@@ -56,5 +58,9 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("app"));
 registerServiceWorker();

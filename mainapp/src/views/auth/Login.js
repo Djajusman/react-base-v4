@@ -5,8 +5,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { postLoginAuth, getJsonWebToken } from "../../api";
 import jwt_decode from "jwt-decode";
-import Captcha from "../../components/Captcha/Captcha";
+// import Captcha from "../../components/Captcha/Captcha";
 import { useDispatch, useSelector } from "react-redux";
+import ReCAPTCHA from "react-google-recaptcha";
+import CONFIG from "../../config";
 
 export default function Login() {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -17,6 +19,7 @@ export default function Login() {
   };
   const dispatch = useDispatch();
   const isValidCaptcha = useSelector((state) => state.isValidCaptcha);
+  const [agree, setAgree] = useState(false);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,10 +37,10 @@ export default function Login() {
   //     console.log(error);
   //   }
   // };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     dispatch({ type: "set", isValidCaptcha: false })
-  },[1])
+  }, [1])
 
   const Login = async (e) => {
     e.preventDefault();
@@ -71,6 +74,11 @@ export default function Login() {
         console.log(error);
       });
   };
+
+  function onCheckCaptcha(value) {
+    console.log("Captcha value:", value);
+    dispatch({ type: "set", isValidCaptcha: true })
+  }
 
   // useEffect(() => {
   //   getToken();
@@ -143,14 +151,26 @@ export default function Login() {
                     </div>
                   </div>
                   <div className="relative w-full mb-5">
-                    <Captcha />
+                    <label
+                      className="block text-grey-60 text-base font-semibold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Captcha*
+                    </label>
+                    <div className="flex flex-row w-full">
+                      <ReCAPTCHA
+                        sitekey={CONFIG.captchaSiteKey}
+                        onChange={onCheckCaptcha}
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
+                        onClick={(() => { setAgree(!agree) })}
                         id="customCheckLogin"
                         type="checkbox"
-                        className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150"
+                        className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"
                       />
                       <span className="ml-2 text-sm font-normal text-grey-60">
                         I agree to{" "}
@@ -163,6 +183,7 @@ export default function Login() {
                     <button
                       className="bg-green-50 max-h-14 text-white active:bg-slate-600 text-lg font-bold px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
+                      disabled={!agree}
                     >
                       <div className="grid justify-items-center">
                         <div className="flex flex-row">

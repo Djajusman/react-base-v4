@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import CONFIG from "../../config";
 
-export default function Login() {
+export default function Login(props) {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     // When the handler is invoked
@@ -71,6 +71,7 @@ export default function Login() {
             )
           );
           console.log(response);
+          props.history.push("/admin");
         } catch (error) {
           alert(error);
         }

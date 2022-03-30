@@ -1,16 +1,17 @@
 import { async } from "@firebase/util";
 import { SpanRecorder } from "@sentry/tracing/dist/span";
-import axios from "axios";
+import axios from "../../api/axios";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { postLoginAuth, getJsonWebToken } from "../../api";
-import jwt_decode from "jwt-decode";
+import { postLoginAuth } from "../../api/index";
+import qs from "qs";
+import { parse } from "himalaya";
 // import Captcha from "../../components/Captcha/Captcha";
 import { useDispatch, useSelector } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import CONFIG from "../../config";
 
-export default function Login() {
+export default function Login(props) {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     // When the handler is invoked
@@ -20,69 +21,94 @@ export default function Login() {
   const dispatch = useDispatch();
   const isValidCaptcha = useSelector((state) => state.isValidCaptcha);
   const [agree, setAgree] = useState(false);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
+  const [formErrors, setFormErrors] = useState({});
   const history = useHistory();
 
-  // const getToken = async (e) => {
-  //   try {
-  //     getJsonWebToken();
-  //     setToken(response.data.accessToken);
-  //     const decode = jwt_decode(response.data.accessToken);
-  //     console.log(decode);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  useEffect(() => {
+    dispatch({ type: "set", isValidCaptcha: false });
+  }, [1]);
 
   useEffect(() => {
-    dispatch({ type: "set", isValidCaptcha: false })
-  }, [1])
+    getToken();
+  }, []);
 
-  const Login = async (e) => {
-    e.preventDefault();
-    if (isValidCaptcha === true) {
-      try {
-        postLoginAuth({
-          username: username,
-          password: password,
-        });
-        history.push("/admin");
-      } catch (error) {
-        if (error.response) {
-          setMsg(error.response.data.msg);
-        }
-      }
-    } else {
-      return alert("invalid captcha")
+  // validasi
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.username) {
+      errors.username = "Username is required!";
     }
-    axios
-      .post(
-        "https://apigwsit.telkom.co.id:7777/gateway/telkom-diarium-auth/1.0/authService/oauth/token",
-        {
-          username: username,
-          password: password,
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
+    }
+    return errors;
   };
 
+  // handle login
+  const Login = async (e) => {
+    try {
+      e.preventDefault();
+      if (isValidCaptcha === true) {
+        try {
+          const grant_type = "password";
+          const response = await setFormErrors(
+            validate(
+              postLoginAuth(
+                qs.stringify({
+                  username: username,
+                  password: password,
+                  grant_type: grant_type,
+                })
+              )
+            )
+          );
+          console.log(response);
+          props.history.push("/admin");
+        } catch (error) {
+          alert(error);
+        }
+      } else {
+        return alert("invalid captcha");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
+
+  // check captcha
   function onCheckCaptcha(value) {
     console.log("Captcha value:", value);
-    dispatch({ type: "set", isValidCaptcha: true })
+    dispatch({ type: "set", isValidCaptcha: true });
   }
 
-  // useEffect(() => {
-  //   getToken();
-  // }, []);
+  // get token
+  const getToken = async () => {
+    try {
+      const response = await axios.get(
+        "rest/pub/apigateway/jwt/getJsonWebToken?app_id=89eb6850-652d-40fd-8c51-9a8073f82426"
+      );
+      const res = parse(response.data);
+      localStorage.setItem(
+        "token",
+        res[0].children[1].children[1].children[3].children[0].content
+      );
+      console.log(
+        "get token =>",
+        res[0].children[1].children[1].children[3].children[0].content
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -109,6 +135,7 @@ export default function Login() {
                     {message}
                   </p>
                   <div className="relative w-full mb-5">
+                    <p>{formErrors.username}</p>
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
                       htmlFor="grid-password"
@@ -126,6 +153,7 @@ export default function Login() {
                   </div>
 
                   <div className="relative w-full mb-5">
+                    <p>{formErrors.username}</p>
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
                       htmlFor="grid-password"
@@ -172,7 +200,9 @@ export default function Login() {
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
-                        onClick={(() => { setAgree(!agree) })}
+                        onClick={() => {
+                          setAgree(!agree);
+                        }}
                         id="customCheckLogin"
                         type="checkbox"
                         className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"

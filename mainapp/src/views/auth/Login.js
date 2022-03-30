@@ -161,7 +161,12 @@ export default function Login() {
                       <ReCAPTCHA
                         sitekey={CONFIG.captchaSiteKey}
                         onChange={onCheckCaptcha}
+                        // size={"invisible"}
                       />
+                      {/* <form id='demo-form'>
+                        <button class="g-recaptcha" data-sitekey={CONFIG.captchaSiteKey} data-callback={onCheckCaptcha}>Submit</button>
+                        <br />
+                      </form> */}
                     </div>
                   </div>
                   <div>

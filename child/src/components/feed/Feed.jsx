@@ -3,7 +3,7 @@ import Post from "../post/Post";
 import Share from "../share/Share";
 import "./feed.css";
 import axios from "../../utils/axios";
-import CardTable from "mainapp/CardTable";
+// import CardTable from "mainapp/CardTable";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -23,7 +23,7 @@ function Feed() {
         {posts.map((p) => (
           <Post key={p.id} post={p} />
         ))}
-        <CardTable />
+        {/* <CardTable /> */}
       </div>
     </div>
   );

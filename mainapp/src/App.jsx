@@ -33,7 +33,7 @@ const App = () => (
       <Switch>
         {/* add routes with layouts */}
         <PrivateRoute path="/admin" component={Admin} />
-        <Route path="/auth" component={Auth} />
+        <Route  path="/auth" component={Auth} />
         <PrivateRoute path="/social" component={Home} />
         {/* add redirect for first page */}
         <Redirect from="*" to="/admin" />

@@ -46,8 +46,8 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-        use:['url-loader?limit=100000'],
-      }
+        use: ["url-loader?limit=100000"],
+      },
     ],
   },
 
@@ -59,9 +59,7 @@ module.exports = {
         mainapp: "mainapp@http://localhost:3005/remoteEntry.js",
         social: "social@http://localhost:3006/remoteEntry.js",
       },
-      exposes: {
-        "./CardTable": "./src/components/CardTable.js",
-      },
+      exposes: {},
       shared: {
         ...deps,
         react: {

@@ -25,7 +25,20 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [formErrors, setFormErrors] = useState({});
+  const [error, setError] = useState(null);
   const history = useHistory();
+
+  const acessToken = localStorage.getItem("token");
+  console.log(acessToken);
+  axios.interceptors.request.use(
+    (config) => {
+      config.headers.authorization = `Bearer ${acessToken}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   useEffect(() => {
     dispatch({ type: "set", isValidCaptcha: false });
@@ -56,31 +69,23 @@ export default function Login(props) {
   const Login = async (e) => {
     try {
       e.preventDefault();
-      if (isValidCaptcha === true) {
-        try {
-          const grant_type = "password";
-          const response = await setFormErrors(
-            validate(
-              postLoginAuth(
-                qs.stringify({
-                  username: username,
-                  password: password,
-                  grant_type: grant_type,
-                })
-              )
-            )
-          );
-          console.log(response);
-          props.history.push("/admin");
-        } catch (error) {
-          alert(error);
-        }
-      } else {
-        return alert("invalid captcha");
-      }
+      const grant_type = "password";
+      const response = await postLoginAuth(
+        qs.stringify({
+          username: username,
+          password: password,
+          grant_type: grant_type,
+        })
+      );
+      await localStorage.setItem("acces_token", response.data.access_token);
+      await localStorage.setItem("refresh_token", response.data.refresh_token);
+      await localStorage.setItem("nama", response.data.nama);
+      await localStorage.setItem("unit", response.data.unit);
+      await localStorage.setItem("jabatan", response.data.jabatan);
+      props.history.push("/admin");
+      console.log(response);
     } catch (error) {
-      console.log(error);
-      alert(error);
+      setError(error.message);
     }
   };
 
@@ -131,11 +136,13 @@ export default function Login(props) {
                   <span>Let’s make your day more exciting here.</span>
                 </div>
                 <form className="mt-6" onSubmit={Login}>
-                  <p className="text-center text-base text-gray-500">
-                    {message}
-                  </p>
+                  {error && (
+                    <div>
+                      <h6>{error}</h6>
+                    </div>
+                  )}
+                  <p className="text-center text-base text-gray-500"></p>
                   <div className="relative w-full mb-5">
-                    <p>{formErrors.username}</p>
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
                       htmlFor="grid-password"
@@ -153,7 +160,6 @@ export default function Login(props) {
                   </div>
 
                   <div className="relative w-full mb-5">
-                    <p>{formErrors.username}</p>
                     <label
                       className="block text-grey-60 text-base font-semibold mb-2"
                       htmlFor="grid-password"

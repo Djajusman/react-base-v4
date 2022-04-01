@@ -206,9 +206,9 @@ export default function Login(props) {
                         }}
                         id="customCheckLogin"
                         type="checkbox"
-                        className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"
+                        className="form-checkbox border-0 rounded text-slate-700 ml-5 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"
                       />
-                      <span className="ml-2 text-sm font-normal text-grey-60">
+                      <span className="ml-4 text-sm font-normal text-grey-60">
                         I agree to{" "}
                         <span className="text-red-500">terms & conditions</span>
                       </span>

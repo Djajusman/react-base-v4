@@ -26,6 +26,7 @@ export default function Login(props) {
   const [message, setMessage] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
+  const [failedLogin, setFailedLogin] = useState(0);
   const history = useHistory();
 
   const acessToken = localStorage.getItem("token");
@@ -82,10 +83,14 @@ export default function Login(props) {
       await localStorage.setItem("nama", response.data.nama);
       await localStorage.setItem("unit", response.data.unit);
       await localStorage.setItem("jabatan", response.data.jabatan);
+
       props.history.push("/admin");
       console.log(response);
     } catch (error) {
       setError(error.message);
+      if (error.response.status === 401) {
+        setFailedLogin(failedLogin + 1);
+      }
     }
   };
 
@@ -130,7 +135,7 @@ export default function Login(props) {
                   />
                 </div>
                 <div className="text-green-50 text-center text-3xl pt-8 font-bold">
-                  <span>Hello, Welcome Back!</span>
+                  <span>Hello, Welcome Back! {failedLogin}</span>
                 </div>
                 <div className="text-slate-400 text-center text-lg pt-2 font-normal">
                   <span>Let’s make your day more exciting here.</span>
@@ -184,42 +189,48 @@ export default function Login(props) {
                       </div>
                     </div>
                   </div>
-                  <div className="relative w-full mb-5">
-                    <label
-                      className="block text-grey-60 text-base font-semibold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Captcha*
-                    </label>
-                    <div className="flex flex-row w-full">
-                      <ReCAPTCHA
-                        sitekey={CONFIG.captchaSiteKey}
-                        onChange={onCheckCaptcha}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        onClick={() => {
-                          setAgree(!agree);
-                        }}
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-slate-700 ml-5 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"
-                      />
-                      <span className="ml-4 text-sm font-normal text-grey-60">
-                        I agree to{" "}
-                        <span className="text-red-500">terms & conditions</span>
-                      </span>
-                    </label>
-                  </div>
+                  {failedLogin > 2 ? (
+                    <>
+                      <div className="relative w-full mb-5">
+                        <label
+                          className="block text-grey-60 text-base font-semibold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Captcha*
+                        </label>
+                        <div className="flex flex-row w-full">
+                          <ReCAPTCHA
+                            sitekey={CONFIG.captchaSiteKey}
+                            onChange={onCheckCaptcha}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="inline-flex items-center cursor-pointer">
+                          <input
+                            onClick={() => {
+                              setAgree(!agree);
+                            }}
+                            id="customCheckLogin"
+                            type="checkbox"
+                            className="form-checkbox border-0 rounded text-slate-700 ml-1 w-4 h-4 ease-linear transition-all duration-150 cursor-pointer"
+                          />
+                          <span className="ml-2 text-sm font-normal text-grey-60">
+                            I agree to{" "}
+                            <span className="text-red-500">
+                              terms & conditions
+                            </span>
+                          </span>
+                        </label>
+                      </div>{" "}
+                    </>
+                  ) : null}
 
                   <div className="btn-wrapper text-center mt-6">
                     <button
                       className="bg-green-50 max-h-14 text-white active:bg-slate-600 text-lg font-bold px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
-                      disabled={!agree}
+                      disabled={failedLogin > 2 ? !agree : agree}
                     >
                       <div className="grid justify-items-center">
                         <div className="flex flex-row">

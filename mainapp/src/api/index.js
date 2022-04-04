@@ -16,16 +16,17 @@ export const handleNetworkError = (error) => {
   throw error;
 };
 
-const post = (api) => (data, token) => {
+const post = (api) => (data) => {
   const tokenAuth = "ZGlhcml1bV83MzI4NzA1OTQ6WGN2Y3pFM1RkWFFQ";
+  const token = localStorage.getItem("token");
   return axios.post(fullURL(api), data, {
     method: "POST",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      'Accept': '*/*',
-      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: "*/*",
+      "Content-Type": "application/x-www-form-urlencoded",
       "x-authorization": `Basic ${tokenAuth}`,
-      Authorization: `Bearer ${CONFIG.token}`,
+      Authorization: `bearer ${token}`,
       // 'apikey': process.env.REACT_APP_API_KEY
     },
   });
@@ -40,7 +41,7 @@ const get = (api) => () => {
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",
         Authorization: `Basic ${tokenAuth}`,
-        
+
         // 'apikey': process.env.REACT_APP_API_KEY
       },
     },

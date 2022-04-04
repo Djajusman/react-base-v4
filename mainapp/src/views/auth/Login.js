@@ -29,18 +29,6 @@ export default function Login(props) {
   const [failedLogin, setFailedLogin] = useState(0);
   const history = useHistory();
 
-  const acessToken = localStorage.getItem("token");
-  console.log(acessToken);
-  axios.interceptors.request.use(
-    (config) => {
-      config.headers.authorization = `Bearer ${acessToken}`;
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
   useEffect(() => {
     dispatch({ type: "set", isValidCaptcha: false });
   }, [1]);
@@ -91,6 +79,15 @@ export default function Login(props) {
       if (error.response.status === 401) {
         setFailedLogin(failedLogin + 1);
       }
+      if (failedLogin > 2) {
+        isValidCaptcha === true;
+      }
+    } finally {
+      setTimeout(() => {
+        this.setState({
+          message: "",
+        });
+      }, 2000);
     }
   };
 
@@ -135,7 +132,8 @@ export default function Login(props) {
                   />
                 </div>
                 <div className="text-green-50 text-center text-3xl pt-8 font-bold">
-                  <span>Hello, Welcome Back! {failedLogin}</span>
+                  <span>Hello, Welcome Back!</span>
+                  {failedLogin}
                 </div>
                 <div className="text-slate-400 text-center text-lg pt-2 font-normal">
                   <span>Let’s make your day more exciting here.</span>
@@ -230,7 +228,7 @@ export default function Login(props) {
                     <button
                       className="bg-green-50 max-h-14 text-white active:bg-slate-600 text-lg font-bold px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
-                      disabled={failedLogin > 2 ? !agree : agree}
+                      disabled={failedLogin > 2 ? !agree : null}
                     >
                       <div className="grid justify-items-center">
                         <div className="flex flex-row">

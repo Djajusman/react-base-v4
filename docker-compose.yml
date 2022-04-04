@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  child:
+    image: child-image:latest
+    container_name: mainapp_container
+    working_dir: /app
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3006:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+
+  mainapp:
+    image: mainapp-image:latest
+    container_name: child_container
+    working_dir: /app
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3005:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start

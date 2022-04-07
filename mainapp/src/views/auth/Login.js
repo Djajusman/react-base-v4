@@ -1,9 +1,8 @@
 import { async } from "@firebase/util";
 import { SpanRecorder } from "@sentry/tracing/dist/span";
-import axios from "../../api/axios";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { postLoginAuth } from "../../api/index";
+import { getTokenBasic, postLoginAuth } from "../../api/index";
 import qs from "qs";
 import { parse } from "himalaya";
 // import Captcha from "../../components/Captcha/Captcha";
@@ -33,26 +32,26 @@ export default function Login(props) {
     dispatch({ type: "set", isValidCaptcha: false });
   }, [1]);
 
-  useEffect(() => {
-    getToken();
-  }, []);
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
 
   // validasi
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.username) {
-      errors.username = "Username is required!";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length < 4) {
-      errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      errors.password = "Password cannot exceed more than 10 characters";
-    }
-    return errors;
-  };
+  // const validate = (values) => {
+  //   const errors = {};
+  //   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  //   if (!values.username) {
+  //     errors.username = "Username is required!";
+  //   }
+  //   if (!values.password) {
+  //     errors.password = "Password is required";
+  //   } else if (values.password.length < 4) {
+  //     errors.password = "Password must be more than 4 characters";
+  //   } else if (values.password.length > 10) {
+  //     errors.password = "Password cannot exceed more than 10 characters";
+  //   }
+  //   return errors;
+  // };
 
   // handle login
   const Login = async (e) => {
@@ -67,7 +66,7 @@ export default function Login(props) {
         })
       );
       await localStorage.setItem("acces_token", response.data.access_token);
-      await localStorage.setItem("refresh_token", response.data.refresh_token);
+      // await localStorage.setItem("refresh_token", response.data.refresh_token);
       await localStorage.setItem("nama", response.data.nama);
       await localStorage.setItem("unit", response.data.unit);
       await localStorage.setItem("jabatan", response.data.jabatan);
@@ -78,16 +77,11 @@ export default function Login(props) {
       setError(error.message);
       if (error.response.status === 401) {
         setFailedLogin(failedLogin + 1);
+        alert("username atau password salah");
       }
       if (failedLogin > 2) {
         isValidCaptcha === true;
       }
-    } finally {
-      setTimeout(() => {
-        this.setState({
-          message: "",
-        });
-      }, 2000);
     }
   };
 
@@ -98,24 +92,22 @@ export default function Login(props) {
   }
 
   // get token
-  const getToken = async () => {
-    try {
-      const response = await axios.get(
-        "rest/pub/apigateway/jwt/getJsonWebToken?app_id=89eb6850-652d-40fd-8c51-9a8073f82426"
-      );
-      const res = parse(response.data);
-      localStorage.setItem(
-        "token",
-        res[0].children[1].children[1].children[3].children[0].content
-      );
-      console.log(
-        "get token =>",
-        res[0].children[1].children[1].children[3].children[0].content
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getToken = async () => {
+  //   try {
+  //     const response = await getTokenBasic();
+  //     const res = parse(response.data);
+  //     localStorage.setItem(
+  //       "token",
+  //       res[0].children[1].children[1].children[3].children[0].content
+  //     );
+  //     console.log(
+  //       "get token =>",
+  //       res[0].children[1].children[1].children[3].children[0].content
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>

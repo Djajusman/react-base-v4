@@ -1,5 +1,5 @@
 const APP = {
-  API_URL: "https://apigwsit.telkom.co.id:7777",
+  API_URL: "https://apifactory.telkom.co.id:8243",
   // process.env.NODE_ENV === "development"
   //   ? process.env.REACT_APP_API_URL_DEV
   //   : process.env.REACT_APP_API_URL_PROD,

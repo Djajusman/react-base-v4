@@ -17,8 +17,7 @@ export const handleNetworkError = (error) => {
 };
 
 const post = (api) => (data) => {
-  const tokenAuth = "ZGlhcml1bV83MzI4NzA1OTQ6WGN2Y3pFM1RkWFFQ";
-  const token = localStorage.getItem("token");
+  const tokenAuth = "d2ViYXBwXzgzNDc2NTM0MjpHREZ5dTI3WGN2WGQ=";
   return axios.post(fullURL(api), data, {
     method: "POST",
     headers: {
@@ -26,21 +25,25 @@ const post = (api) => (data) => {
       Accept: "*/*",
       "Content-Type": "application/x-www-form-urlencoded",
       "x-authorization": `Basic ${tokenAuth}`,
-      Authorization: `bearer ${token}`,
+      Authorization: `bearer ${tokenAuth}`,
       // 'apikey': process.env.REACT_APP_API_KEY
     },
   });
 };
 
 const get = (api) => () => {
+  const basicToken = "dXNlckRpYXJpdW06ZGlhcml1bVVzZXIjMTIz";
   return axios(
     `${fullURL(api)}`,
     {
       method: "GET",
+      withCredentials: "true",
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Content-type": "application/json",
-        Authorization: `Basic ${tokenAuth}`,
+        Authorization: `Basic ${basicToken}`,
 
         // 'apikey': process.env.REACT_APP_API_KEY
       },
@@ -54,12 +57,16 @@ const get = (api) => () => {
 // Authentication
 export const postUser = post("users");
 export const postLoginAuth = post(
-  "gateway/telkom-diarium-auth/1.0/authService/oauth/token"
+  "hcm/api/diarium/authorization/v1/oauth/token"
+);
+export const getTokenBasic = get(
+  "rest/pub/apigateway/jwt/getJsonWebToken?app_id=89eb6850-652d-40fd-8c51-9a8073f82426"
 );
 
 const API = {
   postUser,
   postLoginAuth,
+  getTokenBasic,
 };
 
 export default API;

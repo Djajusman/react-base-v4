@@ -43,6 +43,7 @@
     "file-loader": "^6.2.0",
     "firebase": "^9.6.8",
     "himalaya": "^1.1.0",
+    "http-proxy-middleware": "^2.0.4",
     "jquery": "^3.6.0",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
